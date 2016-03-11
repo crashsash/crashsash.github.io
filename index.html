@@ -20,10 +20,76 @@
       <h3>
 <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to mikity.uk</h3>
 
-<script src="http://crashsash.github.io/game.js"></script> 
+<p id="demo" onclick="myFunction()">Click me to change my text color.</p>
 
-<input type="button" value="my game" onclick="openWindow('http://crashsash.github.io/mikityu.html','popup','width=550,height=550,screenX=100,left=100,screenY=100,top=100,toolbar=0,menubar=0,location=0,status=0,resizable=0,scrollbars=yes');" name="my game">
+<script>
+var userChoice = prompt("Do you choose rock, paper or scissors?");
 
+var computerChoice = Math.random();
+
+if (computerChoice < 0.34) {
+	computerChoice = "rock";
+} 
+
+else if(computerChoice <= 0.67) {
+	computerChoice = "paper";
+} 
+
+else {
+	computerChoice = "scissors";
+} 
+
+console.log("Computer: " + computerChoice);
+
+var compare = function(choice1, choice2){
+   if(choice1 === choice2){
+   return "The result is a tie!";    
+   } 
+
+   else if (choice1 === "rock"){
+
+
+   if(choice2 === "scissors"){
+    return "rock wins"; 
+
+   } 
+
+   else {
+    return "paper wins";
+   }
+
+   }
+
+else if (choice1 === "paper"){
+
+
+   if(choice2 === "rock"){
+    return "paper wins"; 
+
+   } 
+
+   else {
+    return "scissors wins";
+   }
+
+   }
+
+   else if (choice1 === "scissors"){
+
+
+   if(choice2 === "rock"){
+    return "rock wins"; 
+
+   } 
+
+   else {
+    return "scissors wins";
+   }
+
+   }
+
+}
+</script>
 
 
   
