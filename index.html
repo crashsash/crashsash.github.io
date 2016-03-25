@@ -1,23 +1,16 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <meta charset="UTF-8">
-    <title>mikity.uk by crashsash</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    
-    <meta charset="utf-8" />
+      <meta charset="utf-8" />
   <title>Media streaming example</title>
   <style>
     /* CSS code to format the parameter list and elements */
+
     body {
       font-family:'Segoe UI';
       background-color:#f0f0f0;
     }
-    /* Set up parameter and video display*/
+    /* set up parameter and video display*/
     #myDiv {
       /*display: block;*/
       width: 600px;
@@ -39,7 +32,7 @@
       display: -ms-grid;
       -ms-grid-columns: 35% 65%;
       -ms-grid-rows: 1fr;
-    }    
+    }	
 
     #col1 {
       -ms-grid-row: 1;
@@ -53,21 +46,19 @@
     #curInfo{
       display:none;
     }
+
   </style>
-    
-    
   </head>
   
   <body>
  <h1>Simple MPEG-DASH Streaming player</h1>
-
   <div id="grid">
     <div id="col1">
     <label>Enter .mpd file: 
         <input type="text" id="filename" value="sample_dash.xml" />
       </label> <button id="load">Play</button><br />
            
-      <!-- Some areas to display info and content -->
+      <!-- some areas to display info and content -->
       <div id="mydiv">
         <span id="myspan"><br />This demo requires Internet Explorer 11</span>
       </div>
@@ -83,7 +74,6 @@
       </div> 
     </div>
     <div id="col2">
-      <!-- Video element -->
       <video id="myVideo" autoplay="autoplay" >No video available</video>
             <div id="description">
               This example uses HTML5 video, Media Source Extensions, and MPEG-DASH files.<br /> 
@@ -91,84 +81,79 @@
             </div>
     </div>
   </div>
+  <!-- </snippetdashhtml>-->
 
   <!-- script section -->
   <script>
     'use strict'
-    // Global Parameters from .mpd file
+    // global Parameters from .mpd file
     var file;  // MP4 file
     var type;  // Type of file
     var codecs; //  Codecs allowed
-    var width;  //  Native width and height
+    var width;  //  native width and height
     var height;
 
-    // Elements
+    //  elements
     var videoElement = document.getElementById('myVideo');
     var playButton = document.getElementById("load");
     videoElement.poster = "poster.png";
 
-    // Description of initialization segment, and approx segment lengths 
+    //  description of initialization segment, and approx segment lengths 
     var initialization;
     var segDuration;
     var vidDuration;
 
-    // Video parameters
+    //  video parameters
     var bandwidth; // bitrate of video
 
-    // Parameters to drive segment loop
+    //  parameters to drive segment loop
     var index = 0; // Segment to get
     var segments;
     var curIndex = document.getElementById("curIndex"); // Playing segment
     var segLength = document.getElementById("segLength");
 
-    // Source and buffers
+    //  source and buffers
     var mediaSource;
     var videoSource;
 
-    // Parameters to drive fetch loop
+    //  parameters to drive fetch loop
     var segCheck;
     var lastTime = 0;
     var bufferUpdated = false;
 
-    // Flags to keep things going 
+    // flags to keep things going 
     var lastMpd = "";
     var vTime = document.getElementById("curTime");
     var requestId = 0;
-
+ 
     // Click event handler for load button    
     playButton.addEventListener("click", function () {
-      //  If video is paused then check for file change
       if (videoElement.paused == true) {
-        // Retrieve mpd file, and set up video
+        //  Retrieve mpd file, and set up video
         var curMpd = document.getElementById("filename").value;
-        //  If current mpd file is different then last mpd file, load it.
         if (curMpd != lastMpd) {
-          //  Cancel display of current video position
           window.cancelAnimationFrame(requestId);
           lastMpd = curMpd;
           getData(curMpd);
         } else {
-          //  No change, just play
           videoElement.play();
         }
       } else {
-        //  Video was playing, now pause it
         videoElement.pause();
       }
+
     }, false);
 
     // Do a little trickery, start video when you click the video element
     videoElement.addEventListener("click", function () {
       playButton.click();
     }, false);
-
-    // Event handler for the video element errors
+    //  Event handler for the video element errors
     document.getElementById("myVideo").addEventListener("error", function (e) {
       log("video error: " + e.message);
     }, false);
 
-
-    // Gets the mpd file and parses it    
+    // gets the mpd file and parses it    
     function getData(url) {
       if (url !== "") {
         var xhr = new XMLHttpRequest(); // Set up xhr request
@@ -180,7 +165,7 @@
         xhr.onreadystatechange = function () {
           if (xhr.readyState == xhr.DONE) {
             var tempoutput = xhr.response;
-            var parser = new DOMParser(); //  Create a parser object 
+            var parser = new DOMParser(); //  create a parser object 
 
             // Create an xml document from the .mpd file for searching
             var xmlData = parser.parseFromString(tempoutput, "text/xml", 0);
@@ -189,22 +174,22 @@
             // Get and display the parameters of the .mpd file
             getFileType(xmlData);
 
-            // Set up video object, buffers, etc  
+            // set up video object, buffers, etc  
             setupVideo();
 
-            // Initialize a few variables on reload
+            // initialize a few variables on reload
             clearVars();
           }
         }
 
-        // Report errors if they happen during xhr
+        //  Report errors if they happen during xhr
         xhr.addEventListener("error", function (e) {
           log("Error: " + e + " Could not load url.");
         }, false);
       }
     }
 
-    // Retrieve parameters from our stored .mpd file
+    // retrieve parameters from our stored .mpd file
     function getFileType(data) {
       try {
         file = data.querySelectorAll("BaseURL")[0].textContent.toString();
@@ -219,7 +204,9 @@
         initialization = ini[0].getAttribute("range");
         segments = data.querySelectorAll("SegmentURL");
 
-        // Get the length of the video per the .mpd file
+ 
+        
+        // get the length of the video per the .mpd file
         //   since the video.duration will always say infinity
         var period = data.querySelectorAll("Period");
         var vidTempDuration = period[0].getAttribute("duration");
@@ -254,25 +241,19 @@
       document.getElementById("curInfo").style.display = "block";
     }
 
-
     function render() {
-      // Display current video position
+      // display current video position
       vTime.innerText = formatTime(videoElement.currentTime);
-      // Recall this function when available 
+      // recall this function when available 
       requestId = window.requestAnimationFrame(render);
     }
 
-    // Create mediaSource and initialize video 
+    //  create mediaSource and initialize video 
     function setupVideo() {
       clearLog(); // Clear console log
 
-      //  Create the media source 
-      if (window.MediaSource) {
-        mediaSource = new window.MediaSource();
-       } else {
-        log("mediasource or syntax not supported");
-        return;
-      }
+      // create the media source 
+      mediaSource = new (window.MediaSource || window.WebKitMediaSource)();
       var url = URL.createObjectURL(mediaSource);
       videoElement.pause();
       videoElement.src = url;
@@ -283,24 +264,26 @@
       //   ready for a buffer to be added.
       mediaSource.addEventListener('sourceopen', function (e) {
         try {
-          videoSource = mediaSource.addSourceBuffer('video/mp4');
+          videoSource = mediaSource.addSourceBuffer(type + ";" + codecs);
+          //videoSource = mediaSource.addSourceBuffer("video/mp4;codecs=avc1.4d0020,mp4a.40.2");
           initVideo(initialization, file);           
         } catch (e) {
           log('Exception calling addSourceBuffer for video', e);
           return;
         }
-      },false);
+      });
 
-      // Handler to switch button text to Play
+      // handler to switch button text to Play
       videoElement.addEventListener("pause", function () {
         playButton.innerText = "Play";
       }, false);
 
-      // Handler to switch button text to pause
+      // handler to switch button text to pause
       videoElement.addEventListener("playing", function () {
         playButton.innerText = "Pause";
       }, false);
-      // Remove the handler for the timeupdate event
+
+      // remove the handler for the timeupdate event
       videoElement.addEventListener("ended", function () {
         videoElement.removeEventListener("timeupdate", checkTime);
       }, false);
@@ -311,7 +294,7 @@
       var xhr = new XMLHttpRequest();
       if (range || url) { // make sure we've got incoming params
 
-        // Set the desired range of bytes we want from the mp4 video file
+        //  set the desired range of bytes we want from the mp4 video file
         xhr.open('GET', url);
         xhr.setRequestHeader("Range", "bytes=" + range);
         segCheck = (timeToDownload(range) * .8).toFixed(3); // use .8 as fudge factor
@@ -320,7 +303,7 @@
         try {
           xhr.addEventListener("readystatechange", function () {
              if (xhr.readyState == xhr.DONE) { // wait for video to load
-              // Add response to buffer
+              // add response to buffer
               try {
                 videoSource.appendBuffer(new Uint8Array(xhr.response));
                 // Wait for the update complete event before continuing
@@ -341,10 +324,9 @@
     
     function updateFunct() {
       //  This is a one shot function, when init segment finishes loading, 
-      //    update the buffer flag, call getStarted, and then remove this event.
+      //    update the buffer flat, call getStarted, and then remove this event.
       bufferUpdated = true;
       getStarted(file); // Get video playback started
-      //  Now that video has started, remove the event listener
       videoSource.removeEventListener("update", updateFunct);
     }
 
@@ -354,10 +336,10 @@
       //  Start by loading the first segment of media
       playSegment(segments[index].getAttribute("mediaRange").toString(), url);
 
-      // Start showing video time
+      // start showing video time
       requestId = window.requestAnimationFrame(render);
 
-      // Display current index
+      // display current index
       curIndex.textContent = index + 1;
       index++;
 
@@ -365,16 +347,17 @@
       videoElement.addEventListener("timeupdate", fileChecks, false);
 
     }
-    //  Get video segments 
+
+    //  get video segments 
     function fileChecks() {
       // If we're ok on the buffer, then continue
       if (bufferUpdated == true) {
         if (index < segments.length) {
-          // Loads next segment when time is close to the end of the last loaded segment 
+          //  loads next segment when time is close to the end of the last loaded segment 
           if ((videoElement.currentTime - lastTime) >= segCheck) {
             playSegment(segments[index].getAttribute("mediaRange").toString(), file);
             lastTime = videoElement.currentTime;
-            curIndex.textContent = index + 1; // Display current index    
+            curIndex.textContent = index + 1;// display current index    
             index++;
           }
         } else {
@@ -386,7 +369,7 @@
     //  Play segment plays a byte range (format nnnn-nnnnn) of a media file    
     function playSegment(range, url) {
       var xhr = new XMLHttpRequest();
-      if (range || url) { // Make sure we've got incoming params
+      if (range || url) { // make sure we've got incoming params
         xhr.open('GET', url);
         xhr.setRequestHeader("Range", "bytes=" + range);
         xhr.send();
@@ -395,7 +378,7 @@
           xhr.addEventListener("readystatechange", function () {
             if (xhr.readyState == xhr.DONE) { //wait for video to load
               //  Calculate when to get next segment based on time of current one
-                segCheck = (timeToDownload(range) * .8).toFixed(3); // Use .8 as fudge factor
+                segCheck = (timeToDownload(range) * .8).toFixed(3); // use .8 as fudge factor
                 segLength.textContent = segCheck;
               // Add received content to the buffer
               try {
@@ -407,7 +390,7 @@
           }, false);
         } catch (e) {
           log(e);
-          return // No value for range
+          return // no value for range
         }
       }
     }
@@ -429,15 +412,15 @@
       lastTime = 0;
     }
 
-    function timeToDownload(range) {
+     function timeToDownload(range) {
       var vidDur = range.split("-");
-      // Time = size * 8 / bitrate
+      // time = size * 8 / bitrate
       return (((vidDur[1] - vidDur[0]) * 8) / bandwidth)
     }
-
-    // Converts mpd time to human time
+ 
+    // converts mpd time to human time
     function parseDuration(pt) {
-      // Parse time from format "PT#H#M##.##S"
+      // parse time from format "PT#H#M##.##S"
       var ptTemp = pt.split("T")[1];
       ptTemp = ptTemp.split("H")
       var hours = ptTemp[0];
@@ -446,15 +429,14 @@
       var hundredths = seconds.split(".");
       //  Display the length of video (taken from .mpd file, since video duration is infinate)
       return "Video length: " + hours + ":" + pZ(minutes, 2) + ":" + pZ(hundredths[0], 2) + "." + hundredths[1];
-
     }
 
 
     //  Converts time in seconds into a string HH:MM:SS.ss
     function formatTime(timeSec) {
-      var seconds = timeSec % 60;                                 // Get seconds portion                   
-      var minutes = ((timeSec - seconds) / 60) % 60;              // Get minutes portion
-      var hours = ((timeSec - seconds - (minutes * 60))) / 3600;  // Get hours portion
+      var seconds = timeSec % 60;                                  //  get seconds portion                   
+      var minutes = ((timeSec - seconds) / 60) % 60;              //  get minutes portion
+      var hours = ((timeSec - seconds - (minutes * 60))) / 3600;  //  get hours portion
       seconds = seconds.toFixed(2);   // Restrict to 2 places (hundredths of seconds)
       var dispSeconds = seconds.toString().split(".");
       return (pZ(hours, 2) + ":" + pZ(minutes, 2) + ":" + pZ(dispSeconds[0], 2) + "." + pZ(dispSeconds[1], 2));
@@ -468,6 +450,7 @@
       }
       return tNum;
     }
+
   </script>
   </body>
 </html>
