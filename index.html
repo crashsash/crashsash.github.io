@@ -226,8 +226,8 @@
       var url = URL.createObjectURL(mediaSource);
       videoElement.pause();
       videoElement.src = url;
-      videoElement.width = 300;
-      videoElement.height = 400;
+      videoElement.width = width;
+      videoElement.height = height;
       
       // Wait for event that tells us that our media source object is 
       //   ready for a buffer to be added.
