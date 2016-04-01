@@ -78,6 +78,9 @@
     var curIndex = document.getElementById("curIndex"); // Playing segment
     var segLength = document.getElementById("segLength");
 
+var buf = videoElement.buffered;
+var numRanges = buf.length;
+
     //  source and buffers
     var mediaSource;
     var videoSource;
@@ -284,6 +287,7 @@
         } catch (e) {
           log(e);
           log(videoElement.buffered);
+          log(numRanges);
         }
       } else {
         return // No value for range or url
@@ -327,6 +331,7 @@
             index++;
             
             log(videoElement.buffered);
+            log(numRanges);
            
           }
         } else {
@@ -361,6 +366,7 @@
           log(e);
           
           log(videoElement.buffered);
+          log(numRanges);
           
           return // no value for range
         }
