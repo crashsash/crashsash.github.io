@@ -260,6 +260,8 @@
       videoElement.width = width;
       videoElement.height = height;
 
+    console.log(mediaSource.buffered); // TimeRanges { length: 0 }
+    console.log(videoElement.buffered);
       // Wait for event that tells us that our media source object is 
       //   ready for a buffer to be added.
       mediaSource.addEventListener('sourceopen', function (e) {
