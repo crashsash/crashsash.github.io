@@ -136,7 +136,6 @@
             // Create an xml document from the .mpd file for searching
             var xmlData = parser.parseFromString(tempoutput, "text/xml", 0);
             log("parsing mpd file");
-            log(videoElement.buffered);
 
             // Get and display the parameters of the .mpd file
             getFileType(xmlData);
@@ -226,7 +225,6 @@
       videoElement.src = url;
       videoElement.width = width;
       videoElement.height = height;
-      log(videoElement.buffered);
       
       // Wait for event that tells us that our media source object is 
       //   ready for a buffer to be added.
@@ -268,7 +266,6 @@
         segCheck = (timeToDownload(range) * .8).toFixed(3); // use .8 as fudge factor
         xhr.send();
         xhr.responseType = 'arraybuffer';
-        log(videoElement.buffered);
         try {
           xhr.addEventListener("readystatechange", function () {
              if (xhr.readyState == xhr.DONE) { // wait for video to load
@@ -285,6 +282,7 @@
           }, false);
         } catch (e) {
           log(e);
+          log("initSegment" + videoElement.buffered);
         }
       } else {
         return // No value for range or url
@@ -314,7 +312,7 @@
 
       //  Continue in a loop where approximately every x seconds reload the buffer
       videoElement.addEventListener("timeupdate", fileChecks, false);
-
+      log("playSegment" + videoElement.buffered);
     }
 
     //  get video segments 
@@ -328,6 +326,8 @@
             lastTime = videoElement.currentTime;
             curIndex.textContent = index + 1;// display current index    
             index++;
+          
+            log("getSegment" + videoElement.buffered);
           }
         } else {
           videoElement.removeEventListener("timeupdate", fileChecks, false);
@@ -359,7 +359,7 @@
           }, false);
         } catch (e) {
           log(e);
-          log(videoElement.buffered);
+          log("playSegmentByteRange" + videoElement.buffered);
           return // no value for range
         }
       }
