@@ -282,7 +282,7 @@
           }, false);
         } catch (e) {
           log(e);
-          console.log("initSegment" + videoElement.buffered);
+          log(videoElement.buffered);
         }
       } else {
         return // No value for range or url
@@ -312,7 +312,6 @@
 
       //  Continue in a loop where approximately every x seconds reload the buffer
       videoElement.addEventListener("timeupdate", fileChecks, false);
-      log("playSegment" + videoElement.buffered);
     }
 
     //  get video segments 
@@ -326,8 +325,6 @@
             lastTime = videoElement.currentTime;
             curIndex.textContent = index + 1;// display current index    
             index++;
-          
-            log("getSegment" + videoElement.buffered);
           }
         } else {
           videoElement.removeEventListener("timeupdate", fileChecks, false);
@@ -359,7 +356,7 @@
           }, false);
         } catch (e) {
           log(e);
-          log("playSegmentByteRange" + videoElement.buffered);
+          log(videoElement.buffered);
           return // no value for range
         }
       }
