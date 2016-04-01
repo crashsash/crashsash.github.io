@@ -136,6 +136,7 @@
             // Create an xml document from the .mpd file for searching
             var xmlData = parser.parseFromString(tempoutput, "text/xml", 0);
             log("parsing mpd file");
+            log(videoElement.buffered);
 
             // Get and display the parameters of the .mpd file
             getFileType(xmlData);
@@ -283,7 +284,6 @@
         } catch (e) {
           log(e);
           log(videoElement.buffered);
-          log(mediaSource.buffered);
         }
       } else {
         return // No value for range or url
@@ -327,7 +327,6 @@
             index++;
             
             log(videoElement.buffered);
-           log(mediaSource.buffered);
            
           }
         } else {
@@ -360,6 +359,9 @@
           }, false);
         } catch (e) {
           log(e);
+          
+          log(videoElement.buffered);
+          
           return // no value for range
         }
       }
