@@ -226,6 +226,7 @@
       videoElement.src = url;
       videoElement.width = width;
       videoElement.height = height;
+      log(videoElement.buffered);
       
       // Wait for event that tells us that our media source object is 
       //   ready for a buffer to be added.
@@ -267,6 +268,7 @@
         segCheck = (timeToDownload(range) * .8).toFixed(3); // use .8 as fudge factor
         xhr.send();
         xhr.responseType = 'arraybuffer';
+        log(videoElement.buffered);
         try {
           xhr.addEventListener("readystatechange", function () {
              if (xhr.readyState == xhr.DONE) { // wait for video to load
@@ -305,7 +307,7 @@
 
       // start showing video time
       requestId = window.requestAnimationFrame(render);
-
+     log(videoElement.buffered);
       // display current index
       curIndex.textContent = index + 1;
       index++;
@@ -357,6 +359,7 @@
           }, false);
         } catch (e) {
           log(e);
+          log(videoElement.buffered);
           return // no value for range
         }
       }
