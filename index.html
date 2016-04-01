@@ -283,6 +283,7 @@
         } catch (e) {
           log(e);
           log(videoElement.buffered);
+          log(mediaSource.buffered);
         }
       } else {
         return // No value for range or url
@@ -305,7 +306,6 @@
 
       // start showing video time
       requestId = window.requestAnimationFrame(render);
-     log(videoElement.buffered);
       // display current index
       curIndex.textContent = index + 1;
       index++;
@@ -325,6 +325,10 @@
             lastTime = videoElement.currentTime;
             curIndex.textContent = index + 1;// display current index    
             index++;
+            
+            log(videoElement.buffered);
+           log(mediaSource.buffered);
+           
           }
         } else {
           videoElement.removeEventListener("timeupdate", fileChecks, false);
@@ -356,7 +360,6 @@
           }, false);
         } catch (e) {
           log(e);
-          log(videoElement.buffered);
           return // no value for range
         }
       }
