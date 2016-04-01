@@ -63,7 +63,6 @@
     var videoElement = document.getElementById('myVideo');
     var playButton = document.getElementById("load");
     videoElement.poster = "poster.png";
-    console.log(videoElement.buffered);
    
     //  description of initialization segment, and approx segment lengths 
     var initialization;
@@ -137,6 +136,7 @@
             // Create an xml document from the .mpd file for searching
             var xmlData = parser.parseFromString(tempoutput, "text/xml", 0);
             log("parsing mpd file");
+            log(videoElement.buffered);
 
             // Get and display the parameters of the .mpd file
             getFileType(xmlData);
